@@ -1,0 +1,43 @@
+- name: create minio group
+  group: name="{{ minio_user }}" state=present
+  
+- name: create minio user
+  user: name=minio shell=/bin/bash group="{{ minio_group }}"
+  
+- name: install minio components
+  apt: name="{{ item }}" state=present update_cache=yes cache_valid_time=3600
+  with_items:
+    - jq
+    
+- name: download minio
+  get_url: url="{{ minio_url }}" dest="{{ minio_bin }}" mode=0755
+      
+- name: create minio upstart
+  template: src=minio-upstart.conf dest=/etc/init/minio.conf
+      
+- name: create caddy directory
+  file: path=/opt/caddy state=directory
+                  
+- name: download caddy
+  get_url: url="{{ caddy_url }}" dest=/tmp/caddy.tar.gz
+      
+- name: extract caddy
+  unarchive: copy=no src=/tmp/caddy.tar.gz dest=/opt/caddy
+      
+- name: allow caddy to run on ports less than 1024
+  command: setcap cap_net_bind_service=+ep /opt/caddy/caddy
+
+- name: create caddy upstart
+  template: src=caddy-minio-upstart.conf dest=/etc/init/caddy-minio.conf
+      
+- name: create caddy config
+  template: src=caddy-conf dest=/etc/caddy-minio.conf
+
+- name: start caddy
+  service: name=caddy-minio state=started enabled=yes
+  
+- name: create motd update script
+  template: src=update-motd.sh dest=/usr/local/bin/update-motd.sh mode=0755
+  
+- name: set up motd cron
+  cron: name="update motd" job="/usr/local/bin/update-motd.sh > /dev/null"

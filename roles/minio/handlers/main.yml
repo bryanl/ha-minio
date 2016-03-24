@@ -1,0 +1,5 @@
+- name: restart minio
+  service: name=minio state=restarted
+  
+- name: restart caddy-minio
+  service: name=caddy-minio state=restarted

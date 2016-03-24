@@ -1,0 +1,11 @@
+# floating ip issued by DigitalOcean
+# floating_ip: 
+
+# DigitalOcean access token
+# do_token: 
+
+# Generated ha auth key. Consult README.md for how to generate.
+# ha_auth_key:
+
+# Floating IP hostname
+# minio_host:

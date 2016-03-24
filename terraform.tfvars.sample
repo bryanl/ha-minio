@@ -1,0 +1,6 @@
+do_token=""
+private_key_path=""
+ssh_fingerprint=""
+region=""
+project="app1"
+public_key=""

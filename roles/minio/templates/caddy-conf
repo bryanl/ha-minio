@@ -1,0 +1,7 @@
+{{ minio_host }} {
+    proxy / 127.0.0.1:9000 {
+        proxy_header Host {host}
+        proxy_header X-Real-IP {remote}
+        proxy_header X-Forwarded-Proto {scheme}
+    }
+}

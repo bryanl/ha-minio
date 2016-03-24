@@ -1,0 +1,4 @@
+node {{ primary_name }}
+ucast eth0 {{ primary_address }}
+node {{ secondary_name }}
+ucast eth0 {{ secondary_address }}

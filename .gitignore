@@ -1,0 +1,7 @@
+.DS_Store
+site.retry
+*.tfstate.*
+*.tfstate
+*.tfvars
+group_vars/node
+*.pyc

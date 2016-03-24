@@ -1,0 +1,8 @@
+---
+- hosts: node
+  roles:
+    - gluster-minio
+    - minio
+    - ha
+  become: True
+  

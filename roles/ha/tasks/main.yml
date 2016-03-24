@@ -1,0 +1,24 @@
+---
+- name: install heartbeat components
+  apt: name="{{ item }}" state=present update_cache=yes cache_valid_time=3600
+  with_items:
+    - heartbeat
+
+- name: configure heartbeat
+  template: src=ha.cf dest=/etc/ha.d/ha.cf mode=0644
+  
+- name: configure authkey
+  template: src=authkeys dest=/etc/ha.d/authkeys mode=0600
+  
+- name: configurea haresources
+  template: src=haresources dest=/etc/ha.d/haresources
+  
+- name: install floating ip assigner
+  template: src=assign-ip dest=/usr/local/bin/assign-ip mode=0755
+  
+- name: install floating ip manager
+  template: src=floatip dest=/etc/init.d/floatip mode=0755
+    
+- name: start heartbeat service
+  service: name=heartbeat state=started enabled=yes
+  

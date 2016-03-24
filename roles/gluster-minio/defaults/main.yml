@@ -1,0 +1,2 @@
+---
+cluster_member_ips: "{{ hostvars | to_group_vars(groups, 'node') | map (attribute='ipv4_address_private') | join(',') }}"
